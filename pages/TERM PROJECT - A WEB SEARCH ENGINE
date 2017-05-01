@@ -1,0 +1,209 @@
+Search Engines for Web and Enterprise Data
+Main Menu
+
+Lab1
+Lab2
+Lab3
+Lab4
+Term Project
+TERM PROJECT
+
+TERM PROJECT - A WEB SEARCH ENGINE
+
+
+
+PROJECT DESCRIPTIONS
+
+SUBMISSIONS
+
+MARKING SCHEME
+
+BONUS
+
+IMPLEMENTATION HINTS
+
+SOME SUGGESTIONS
+
+MORE ON GROUP SIZENEW!
+
+MAKING YOUR OWN PROJECTNEW!
+
+DESCRIPTIONS
+
+You are required to work in a group of 3 members.The grade of each member in the team depends on the workload (s)he shares.You may need to do some planning before the implementation of the project on how to distribute the workload.
+You are required to develop a web-based search engine with the following functions:
+A spider (or called a crawler) function to fetch pages recursively from a given web site:
+Given a starting URL and the number of pages to be indexed, recursively fetch the required number of pages from the given site into the local system using a breadth-first strategy.
+For each page fetched into the local system, extract all the hyperlinks so that the spider can recursively process more pages, and proceed to the indexing functions in Step 2.
+Build a file structure containing the parent/child link relation. As noted elsewhere, every URL is represented internally as a page-ID, so the file structure should be able to return the page-IDs of the children pages given the page-ID of the parent page and vice versa.
+Before a page is fetched into the system, it must perform several checks:
+If the URL doesn’t exist in the index, go ahead to retrieve the URL
+If the URL already exists in the index but the last modification date of the URL is later than that recorded in the index, go ahead to retrieve the URL; otherwise, ignore the URL
+To handle cyclic links gracefully
+Resource: The HTML parser library from http://htmlparser.sourceforge.net/ provides the basic functions to fetch the we bpages and to extract the keywords and links from the web pages; notice that the HTML parser is a very large library, but we need no more than a few basic functions from it.
+An indexer which extracts keywords from a page and inserts them into an inverted file
+The indexer first removes all stop words from the file; a dictionary of stop words will be provided
+It then transforms words into stems using the Porter’s algorithm
+It inserts the stems into the two inverted files:
+all stems extracted from the page body, together with all statistical information needed to support the vector space model (i.e., no need to support Boolean operations), are inserted into one inverted file
+all stems extracted from the page title are inserted into another inverted file
+The indexes must be able to support phrase search such as “hong kong” in page titles and page bodies.
+Resource: A Java Implementation of Porter's algorithm is available here. The JDBM library from http://jdbm.sourceforge.net/ is suggested to be used to create and manipulate the file structures for storing the inverted file and other file structures needed.
+A retrieval function (or called the search engine) that compares a list of query terms against the inverted file and returns the top documents, up to a maximum of 50, to the user in a ranked order according to the vector space model.  As noted about, phrase must be supported, e.g., “hong kong” universities
+Term weighting formula is based on tfxidf/max(tf) and document similarity is based on cosine similarity measure.
+Derive and implement a mechanism to favor matches in title. For example, a match in the title would significantly boost the rank of a page
+A web interface that accepts a user query in a text box, submits the query to the search engine, and displays the returned results to the user
+Since only the vector space model is required, you don’t need to support logical operators; the query is just a list of keywords that allows phrases to be specified in double quotes
+The results are ranked in descending order of the document scores
+Each item returned is displayed in the following format:
+
+
+score
+page title
+
+url
+
+last modification date, size of page
+
+keyword 1 freq 1; keyword 2 freq 2; …
+Parent link 1
+Parent link 2
+… …
+Child link 1
+Child link 2
+… …
+score
+page title
+
+… …
+
+The title and URL are hyperlinked to the actual page on the remote server
+The list of keywords displays up to 5 most frequent stemmed keywords (excluding stop words) in the page together with their occurrence frequencies
+Some pages do not contain the last modified date field and the size field in their headers. In these cases, you can consider the date field to be the last modified date and consider the length of the content (i.e. directly count the number of characters) to be the size of the page.
+While the interface doesn’t have to be fancy, each result item should be format with clarity
+All of the results (up to 50 web pages) can be displayed on one page
+In order to interface your search engine with the web interface, you need to write a JSP page to pass the query string to the search engine (you are allowed to use PHP or other standard web-to-application interface language).
+ SUBMISSIONS
+
+For each group, you only need to assgin one member to submit the project to CASS. Remember to specify the workload distribution.
+
+PHASE 1:
+It worths 5% of the course marks. However, if you fail to submit the phase 1, you will get zero marks for you entire project.
+You need to:
+implement a spider (integrated with an indexer) for fetching and indexing webpages
+index 30 pages from http://www.cse.ust.hk
+implement a test program which read data from the jdbm and outputs a plain-text file named spider_result.txt. The format of the spider_result.txt file should be as follows:
+Page title
+URL
+Last modification date, size of page
+Keyword1 freq1; Keyword2 freq2; Keyword3 freq3; …...
+Child Link1
+Child Link2 .....
+-------------------------------------------------------------------------------------------
+Page title
+URL
+Last modification date, size of page
+Keyword1 freq1; Keyword2 freq2; Keyword3 freq3; ……
+Child Link1
+Child Link2 ….
+….
+….
+You should submit:
+a document containing the design of the jdbm database scheme of the indexer. All supporting databases should be defined, for example, forward and inverted indexes, mapping tables for URL <=> page ID and word <=> word ID conversion. The jdbm database schema depends on the functions implemented. You should include an explanation on your design.
+the source codes of the spider and the test program
+a readme.txt file containing the instructions to build the spider and the test program, and how to execute them.
+the db file which contains the indexed 30 pages starting from http://www.cse.ust.hk/
+spider_result.txt which is the output of test program
+Approximate percentage contribution and tasks performed by each project member.
+Zip the files and submit via CASS system. The assignment name is Phase1.
+FINAL SUBMISSION:
+
+It worths 20% of the course marks.
+You need to:
+implement the search engine and the web interface. The user inputs queries the search engine through the web interface. The search engine compares the query terms against the indexed terms in jdbm and returns the top documents to the user through the web interface.
+either set up your search engine on http://comp4321.cse.ust.hk/~your_account/comp4321proj.html, or on your laptop computer (then you need to set up the web infrastructure on your machine, e.g., Apache in Linux/Windows, or IIS in Windows environment by yourself), so that you can demonstrate the project to TA. In case you set up your system on comp4321.cse.ust.hk, it should be set up in only one of your group members' account.
+index 300 pages starting from here
+You need to submit:
+the source codes of the spider, indexer, search engine and the web interface (DO NOT submit the db files)
+a document (around 6-8 pages long) containing
+Overall design of the system (1 page)
+The file structures used in the index database (2 pages)
+Highlight of features beyond the required specification (1 page)
+Testing of the functions implemented; include screenshots if applicable in the report (2 pages)
+Conclusion: What are the strengths and weaknesses of your systems; what you would have done differently if you could re-implement the whole system; what would be the interesting features to add to your system, etc. (1 page)
+Approximate percentage contribution and tasks performed by each project member.
+Zip the files and submit via CASS system. The assignment name is FinalPhase_GroupNumber .
+
+
+ MARKING SCHEME
+
+
+
+ 	Phase1(5)	Final Submission(20)
+Correctness and completeness	70%	70%
+Program design and programming style	10%	5%
+Documentation	20%	5%
+Basic user interface design	0%	5%
+Demonstration (to TA)	0%	15%
+Bonus (in-class demonstration)*	0%	2.5%
+Bonus (extra features)	0%	15%
+TOTAL (with bonus)	100%	117.5%** * It is a tradition of the course to invite outstanding projects to demonstrate their search engines in the last lecture. Since time is limited, typically only the top 3-4 projects are invited and the bonus is to account for the time to prepare a good presentation. If you are not among the top 3-4 projects and want to do an in-class demonstration, you should let me know in advance (before the demo lecture and after you know you are not among the top projects).
+** This amounts to approximately 3 points in the entire course, as stated in Grading Scheme in the course homepage.
+
+
+
+
+
+BONUS
+
+You can enhance your system beyond what is required in the project description to get a maximum of 10% bonus. However, the final decision on whether your additional work is worth any bonus is completely up to the TA and my decision. The following is a couple of examples that may be considered for bonus. Whether you will get any bonus, and if so, how much, depends on how much effort is required to do the extra work and how well is the implementation.
+Implementation of the relevance feedback feature “get similar pages” (cf. Google); clicking the “get similar pages” button will extract the top 5 most frequent keywords (excluding stop words) from the page; rewrite the original query and submit the revised query for a new search.
+Allow the user to see a list of all (stemmed) keywords indexed in your database, browse through them, and select the keywords he/she is interested in, and then submit them as a vector-space query to your search engine.
+A user-friendly interface for all of the functions (e.g., making use of DHTML, AJAX, application-based interface)
+Keep track of query history (need application-based interface or cookies, etc.) and allow users to view the result of a previous query (or operate on the results, e.g., merging the results of two previous queries or search within the result of a previous query).
+Many other features that you can observe from existing commercial search engines.
+Consider links in result ranking (e.g., PageRank).
+Exceedingly good speed by using special implementation techniques.
+
+
+
+
+IMPLEMENTATION HINTS
+
+Using JDBM in JSP
+To use JDBM in JSP, the name of the database file should be set as absolute path. That is, recman = RecordManagerFactory.createRecordManager("/comp4321/your_account/public_html/database"); Then the database.db and database.lg files should be placed in /comp4321/your_account/public_html.
+In case your JSP pages need to write on the database, make sure that the tomcat user has the permission to write on the folder. To do so, execute the command to set the permission: chmod g+rw public_html
+Using Java classes and libraries in JSP
+To use java classes, create a folder named WEB-INF in public_html folder. In the WEB-INF folder, create another folder named classes and all the compiled class files should be placed in it. Make sure that all the folders and the classes should be accessible for the tomcat user. i.e. chmod g+r WEB-INF -R
+To use java libraries, the jar files should be placed into WEB-INF/lib/. Similar to the java classes case, the permissions should be set properly.
+new! We do allow flexibility in the choice of programming language and libraries (i.e., you do not have to just jdbm and htmpparser libraries if you find other libraries to be easier to use). However, when you choose an alternative, you should ask yourself if it satisfies two basic requirements. First, does the solution scale up, e.g., loading all data into main memory would certainly increase search and index speed but it does not scale up with the number of documents indexed. Second, does it make the project too easy to do by doing everyhing required by the project in the library? E.g., a frequent question is can I use mysql to store the index. Think about it, mysql is complex system having implemented date storage (create table), query processing (select from where) and indexing (create index). It does not make sense to build a search engine on top of a power search engine by itself.
+
+
+SOME SUGGESTIONS
+
+
+
+You are free to choose any programming language you like to do your project. However, you should bear your own risk if you choose another language, and you should not expect us to help you with debugging.
+You are also free to choose other packages to implement the project.  However, you have to make sure you implement a “real” search engine. For example, storing all the index information in arrays or other main-memory data structures is not acceptable.
+You are suggested to use the stopword list.
+Speed is not essential but must be reasonable in that you program (spider or search) should run at the average speed (i.e., if your program takes 5 times more than your friend’s, then there must be something wrong with your design, or your friend’s). If you had implemented special techniques that can speed up indexing and search (e.g., by using a special index design and/or intelligent caching), you can highlight it in your report and to the TA for qualifying bonus points. If your system is judged to be slower than normal, you should be able to give an explanation to avoid penalty.
+If you are so unfortunate that you cannot finish the phases before deadlines, you should still submit the parts that you have done so that the TA can give partial marks to you. I won’t be harsh in grading as I realize that you have lots of things to do. However, don’t use this as an excuse for copying from other or from the old projects. If you are so unlucky that I discover you copy from other, you and the one who gives you the source would get ZERO MARK!
+
+
+MORE ON GROUP SIZENEW!
+
+Each group has 3 members. If you want to form a 4-member group, the group will be evaluated based on the fact you have one additional member to do the work. Thus, you are required to do additional work to justify this additional member. Rule-of-thumb is that you should do 2-3 additional features, depending on the complexity of the features. Of course, if you do 4-5 additional features beyond the work of four members, you will get a bonus as with other groups. If you want to form a 2-member group, you will have to meet all of the requirements of the project (i.e., meeting all of the requirements gives you 100 points). There is no particular way to account for the fact that you have one fewer member than other groups, but maybe if you make some mistakes the grading would be a bit more lenient.
+
+
+MAKING YOUR OWN PROJECTNEW!
+
+The purpose of this project is to train students to be search engine programmers who will be capable of building their own "Google-Killer" companies, or in a more peaceful way, employable by Google and Bing. To align with the University's emphasis on innovation and out-of-the-box-thinking, I would allow projects that built on existing open-source search engine, e.g., Lucene and Elasticsearch, and many information retrieval libraries for doing many wonderful things (search them for yourselves). Since the use of full-functional search engines and libraries will make meeting the project requirements trivial, you need to do some innovative works on top of those systems and libraries. While it is hard to give examples on innovation, I would say the application of some text mining and machine learning techniques would be a good starting point. In any case, give me a proposal and let us discuss about the idea.
+
+
+
+
+
+
+
+
+Hong Kong University of Science and Technology - Department of Computer Science and Engineering
